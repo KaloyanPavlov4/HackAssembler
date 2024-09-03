@@ -35,8 +35,7 @@ public class Code {
     }
 
     public String a_command(int location){
-        String as16bitBinary = Integer.toBinaryString(0x10000 | location).substring(1);
-        return as16bitBinary;
+        return Integer.toBinaryString(0x10000 | location).substring(1);
     }
 
 }
