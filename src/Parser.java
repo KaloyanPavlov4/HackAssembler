@@ -2,9 +2,13 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-public class Parser {
+public class Parser implements AutoCloseable{
     private final Scanner fileReader;
+
     private String currentCommand;
+
+    private int line;
+
     public Parser(String fileName) throws FileNotFoundException {
         File file = new File(fileName);
         fileReader = new Scanner(file);
@@ -14,12 +18,17 @@ public class Parser {
         return fileReader.hasNextLine();
     }
 
+    public int getLine() {
+        return line;
+    }
+
     public void advance(){
-        String nextCommand = fileReader.nextLine();
+        String nextCommand = fileReader.nextLine().trim().replace(" ", "");
         while(nextCommand.startsWith("//") || nextCommand.isBlank()){
-            nextCommand = fileReader.nextLine();
+            nextCommand = fileReader.nextLine().trim().replace(" ", "");
         }
         currentCommand = nextCommand;
+        if (commandType() != CommandType.L_COMMAND) line++;
     }
 
     public CommandType commandType(){
@@ -28,28 +37,28 @@ public class Parser {
         return CommandType.C_COMMAND;
     }
 
-    public String symbol() throws Exception {
-        if (commandType() == CommandType.C_COMMAND) throw new Exception("C Commands don't have a symbol!");
+    public String symbol() throws UnsupportedOperationException {
+        if (commandType() == CommandType.C_COMMAND) throw new UnsupportedOperationException("C Commands don't have a symbol!");
         return currentCommand.replaceAll("[()@]", "");
     }
 
-    public String dest() throws Exception {
-        if(commandType() != CommandType.C_COMMAND) throw new Exception("A and L Commands don't have dest!");
-        if(currentCommand.contains("=")) return currentCommand.split("=")[0];
-        return null;
+    public String dest() throws UnsupportedOperationException {
+        if(commandType() != CommandType.C_COMMAND) throw new UnsupportedOperationException("A and L Commands don't have dest!");
+        return currentCommand.contains("=") ? currentCommand.split("=")[0] : null;
     }
 
-    public String jump() throws Exception {
-        if(commandType() != CommandType.C_COMMAND) throw new Exception("A and L Commands don't have jump!");
-        if(currentCommand.contains(";")) return currentCommand.split(";")[1];
-        return null;
+    public String jump() throws UnsupportedOperationException {
+        if(commandType() != CommandType.C_COMMAND) throw new UnsupportedOperationException("A and L Commands don't have jump!");
+        return currentCommand.contains(";") ? currentCommand.split(";")[1] : null;
     }
 
-    public String comp() throws Exception {
-        String jump = jump();
-        String dest = dest();
-        return currentCommand.replaceAll(String.format("%s|%s|;|=", jump, dest), "");
+    public String comp() {
+        String toReturn = currentCommand.substring(currentCommand.indexOf("=")+1);
+        return toReturn.split(";")[0];
     }
 
-
+    @Override
+    public void close() throws Exception {
+        fileReader.close();
+    }
 }

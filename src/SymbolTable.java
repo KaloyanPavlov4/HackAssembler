@@ -1,10 +1,12 @@
 import java.util.HashMap;
 
 public class SymbolTable {
-    private int nextVarAddress = 16;
-    private HashMap<String, Integer> symbolTable = new HashMap<>();
+    private int nextVarAddress;
+
+    private final HashMap<String, Integer> symbolTable = new HashMap<>();
 
     public SymbolTable() {
+        nextVarAddress = 16;
         symbolTable.put("R0",0);
         symbolTable.put("R1",1);
         symbolTable.put("R2",2);
