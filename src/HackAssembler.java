@@ -54,6 +54,7 @@ public class HackAssembler {
         if (symbolTable.contains(symbol)) {
             output.append(code.commandToLocation(symbolTable.getAddress(symbol)));
         } else {
+            //If the A command symbol is not a number it's a variable that needs to be translated into its location or added to the symbol table if new
             try {
                 int location = Integer.parseInt(symbol);
                 output.append(code.commandToLocation(location));
@@ -73,6 +74,7 @@ public class HackAssembler {
         }
     }
 
+    //First pass of the program that adds all the labels pointing to lines of the code used for jumps
     private void populateSymbolTable() throws Exception {
         while (parser.hasMoreCommands()) {
             parser.advance();

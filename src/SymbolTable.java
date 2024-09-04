@@ -5,6 +5,8 @@ public class SymbolTable {
 
     private final HashMap<String, Integer> symbolTable = new HashMap<>();
 
+    //All predefined labels and addresses
+    //Here it's in the constructor because Map.ofEntries returns an immutable map
     public SymbolTable() {
         nextVarAddress = 16;
         symbolTable.put("R0",0);

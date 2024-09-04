@@ -1,6 +1,7 @@
 import java.util.Map;
 
 public class Code {
+    //All the different possibilities for the comp part of a C command and their binary variants
     private final Map<String, String> comp = Map.ofEntries(Map.entry("0", "0101010"), Map.entry("1", "0111111"), Map.entry("-1","0111010"),
             Map.entry("D", "0001100"), Map.entry("A", "0110000"), Map.entry("!D", "0001101"), Map.entry("!A", "110001"),
             Map.entry("-D", "0001111"), Map.entry("-A", "0110011"), Map.entry("D+1", "0011111"), Map.entry("A+1","0110111"),
@@ -10,9 +11,11 @@ public class Code {
             Map.entry("D+M","1000010"), Map.entry("D-M","1010011"), Map.entry("M-D","1000111"), Map.entry("D&M","1000000"),
             Map.entry("D|M", "1010101"));
 
+    //All the different possibilities for the dest part of a C command and their binary variants except for null as Map.ofEntries does not support null key (null check in method)
     private final Map<String, String> dest = Map.ofEntries(Map.entry("M","001"), Map.entry("D","010"), Map.entry("MD","011"),
             Map.entry("A","100"), Map.entry("AM","101"), Map.entry("AD","110"), Map.entry("AMD","111"));
 
+    //All the different possibilities for the jump part of a C command and their binary variants except for null as Map.ofEntries does not support null key (null check in method)
     private final Map<String, String> jump = Map.ofEntries(Map.entry("JGT","001"), Map.entry("JEQ","010"),Map.entry("JGE","011"),
             Map.entry("JLT","100"),Map.entry("JNE","101"),Map.entry("JLE","110"),Map.entry("JMP","111"));
 

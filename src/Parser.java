@@ -23,7 +23,9 @@ public class Parser implements AutoCloseable{
     }
 
     public void advance(){
+        //Ignores whitespace
         String nextCommand = fileReader.nextLine().trim().replace(" ", "");
+        //Ignores commented lines and empty lines
         while(nextCommand.startsWith("//") || nextCommand.isBlank()){
             nextCommand = fileReader.nextLine().trim().replace(" ", "");
         }
@@ -44,16 +46,22 @@ public class Parser implements AutoCloseable{
 
     public String dest() throws UnsupportedOperationException {
         if(commandType() != CommandType.C_COMMAND) throw new UnsupportedOperationException("A and L Commands don't have dest!");
+        //Checks if the command has a dest part and returns null if not
         return currentCommand.contains("=") ? currentCommand.split("=")[0] : null;
     }
 
     public String jump() throws UnsupportedOperationException {
         if(commandType() != CommandType.C_COMMAND) throw new UnsupportedOperationException("A and L Commands don't have jump!");
+        //Checks if the command has a jump part and returns null if not
         return currentCommand.contains(";") ? currentCommand.split(";")[1] : null;
     }
 
+    /*Because not all commands have a dest or jump
+    this method returns the middle comp part no matter if they are present or not and also avoids if checks*/
     public String comp() {
+        //-1+1 if dest part is not present which returns the whole string, else gets everything after the dest part
         String toReturn = currentCommand.substring(currentCommand.indexOf("=")+1);
+        //Gets everything before the beginning of the jump part signaled by ;
         return toReturn.split(";")[0];
     }
 
