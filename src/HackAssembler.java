@@ -32,7 +32,7 @@ public class HackAssembler {
     }
 
     private void processCommands() throws Exception {
-        while (parser.hasMoreCommands()) {
+        while (parser.hasMoreLines()) {
             parser.advance();
             switch (parser.commandType()) {
                 case C_COMMAND:
@@ -76,7 +76,7 @@ public class HackAssembler {
 
     //First pass of the program that adds all the labels pointing to lines of the code used for jumps
     private void populateSymbolTable() throws Exception {
-        while (parser.hasMoreCommands()) {
+        while (parser.hasMoreLines()) {
             parser.advance();
             if (parser.commandType() == CommandType.L_COMMAND) {
                 symbolTable.addEntry(parser.symbol(), parser.getLine());
