@@ -14,7 +14,7 @@ public class Parser implements AutoCloseable{
         fileReader = new Scanner(file);
     }
 
-    public boolean hasMoreCommands() {
+    public boolean hasMoreLines() {
         return fileReader.hasNextLine();
     }
 
